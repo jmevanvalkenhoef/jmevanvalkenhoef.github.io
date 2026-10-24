@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Joost van Valkenhoef</title>
-  <meta name="description" content="Data scientist and software engineer. I build decentralized systems and measure how they behave.">
+  <meta name="description" content="Data scientist and software engineer. I build software and measure how it behaves: mesh networks, tools for AI agents, and the statistics behind them.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
@@ -30,10 +30,10 @@
   <canvas id="mesh" aria-hidden="true"></canvas>
   <div class="wrap">
     <p class="kicker">Data scientist · Software engineer</p>
-    <h1>I build decentralized systems and <em>measure how they behave.</em></h1>
-    <p class="lede">My background is in data science and software development. My current work is on mesh networks that run without a central server, and on the statistics of how they fail.</p>
+    <h1>I build software and <em>measure how it behaves.</em></h1>
+    <p class="lede">My background is in data science and software development. At the moment I work on mesh networks that run without a central server and on tools that AI agents use, and I test both with experiments and Bayesian statistics.</p>
     <div class="cta">
-      <a class="btn primary" href="fips-lab/">See FIPS Lab →</a>
+      <a class="btn primary" href="#work">See my work →</a>
       <a class="btn" href="#contact">Get in touch</a>
     </div>
     <div class="legend" aria-hidden="true">
@@ -48,7 +48,31 @@
 
 <section id="work">
   <div class="wrap">
-    <div class="head"><h2>Work</h2><span class="count">featured</span></div>
+    <div class="head"><h2>Work</h2><span class="count">2 projects</span></div>
+
+    <article class="feature">
+      <a class="shot light" href="shared-board/" aria-label="Shared Board case study">
+        <img src="img/shared-board-card.webp" width="630" height="440" alt="The Shared Board in the browser: cards in In progress and Done, three of them with an orange edge because the AI agent moved them from the command line." loading="lazy">
+        <span class="tag">THE AGENT'S CHANGES, LIVE</span>
+      </a>
+      <div class="body">
+        <p class="kicker">AI agents · Bayesian inference</p>
+        <h3><a href="shared-board/">Shared Board</a></h3>
+        <p>A kanban board that a person and an AI agent use together: the person in the browser, the agent through a command-line tool. I used it to measure how three designs of that tool change the work of three Claude models, over 414 graded runs and a Bayesian model of the results.</p>
+        <div class="stats">
+          <div class="stat"><b>0.29×</b><span>wrong commands when the CLI accepts what agents guess</span></div>
+          <div class="stat"><b>+19%</b><span>cost for the strongest model with more helpful output</span></div>
+          <div class="stat"><b>11×</b><span>cheaper per task: Haiku 5.5 against Sonnet 5.5</span></div>
+        </div>
+        <ul class="tags" aria-label="Built with">
+          <li>TypeScript</li><li>Node</li><li>SQLite</li><li>Claude Code</li><li>PyMC</li><li>D3</li>
+        </ul>
+        <div class="links">
+          <a href="shared-board/">Case study →</a>
+          <a href="shared-board/writeup/">Write-up</a>
+        </div>
+      </div>
+    </article>
 
     <article class="feature">
       <a class="shot" href="fips-lab/" aria-label="FIPS Lab case study">
@@ -79,8 +103,18 @@
 
 <section id="writing">
   <div class="wrap">
-    <div class="head"><h2>Writing</h2><span class="count">2 posts</span></div>
+    <div class="head"><h2>Writing</h2><span class="count">3 posts</span></div>
     <ul class="posts">
+      <li>
+        <a href="shared-board/writeup/">
+          <span class="meta">Oct 2026<br>Shared Board · 01</span>
+          <div>
+            <h3>How CLI design changes an AI agent's work</h3>
+            <p>Three designs of one command-line tool, three Claude models and 18 tasks on a kanban board. A tool that accepts the commands agents guess cuts their wrong commands to a third, and more helpful output makes the strongest model 19% more expensive.</p>
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
       <li>
         <a href="fips-lab/experiments/writeups/01-reroute/">
           <span class="meta">Oct 2026<br>FIPS Lab · 01</span>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shared Board · Joost van Valkenhoef</title>
+  <meta name="description" content="A kanban board shared by a person and an AI agent, and an experiment on how the design of the agent's command-line tool changes its work.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../theme.js"></script>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="name" href="../">Joost van Valkenhoef</a>
+    <nav aria-label="Sections">
+      <a href="../#work">work</a>
+      <a href="../#writing">writing</a>
+      <a href="../#about">about</a>
+      <a href="../#contact">contact</a>
+    </nav>
+    <button id="theme" type="button" aria-label="Toggle light or dark theme">theme</button>
+  </div>
+</header>
+
+<main class="wrap narrow">
+
+<div class="page-head">
+  <p class="kicker">Case study · October 2026</p>
+  <h1>Shared Board: a kanban board for a person and an AI agent</h1>
+  <p class="lede">Most people work with AI through a chat window. I wanted a shared space instead, where a person and an agent work on the same thing and each can see what the other does. The board is that space. The experiment on top of it asks how the design of the agent's tool changes its work.</p>
+  <div class="cta">
+    <a class="btn primary" href="writeup/">Read the write-up</a>
+  </div>
+</div>
+
+<figure class="figure">
+  <img src="../img/shared-board.webp" width="1300" height="520" alt="The board in the browser: four columns with cards. Four cards have an orange edge and the word agent, because the agent changed them from the command line.">
+  <figcaption>The board after four changes the agent made from the terminal. Its cards get an orange edge and slide into place as it works.</figcaption>
+</figure>
+
+<div class="prose">
+
+<div class="stats">
+  <div class="stat"><b>414</b><span>graded agent runs, 90 of them on held-out tasks</span></div>
+  <div class="stat"><b>0.29×</b><span>wrong commands when the CLI accepts what agents guess</span></div>
+  <div class="stat"><b>+19%</b><span>cost for Sonnet with more helpful output</span></div>
+</div>
+
+<h2>How it works</h2>
+<svg class="arch" viewBox="0 0 720 250" role="img" aria-labelledby="arch-title">
+  <title id="arch-title">Architecture: the person uses a web page and the agent uses the board command-line tool. Both talk to one server, which appends every change to an event log and streams it to every open page. For the experiment, a harness starts a fresh board per run, runs Claude Code on one task, grades the result, and a Bayesian model compares the runs.</title>
+  <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 8 4 0 8Z" fill="var(--series)"/></marker></defs>
+  <rect class="box" x="1" y="20" width="160" height="62" rx="8"/>
+  <text class="title" x="16" y="45">web page</text><text x="16" y="66">you: drag, edit, watch</text>
+  <rect class="box hl" x="250" y="1" width="220" height="100" rx="8"/>
+  <text class="title" x="265" y="26">board server</text>
+  <text x="265" y="48">append-only event log</text>
+  <text x="265" y="68">SQLite, one writer</text>
+  <text x="265" y="88">live updates to every page</text>
+  <rect class="box" x="559" y="20" width="160" height="62" rx="8"/>
+  <text class="title" x="574" y="45">board CLI</text><text x="574" y="66">the agent, in a terminal</text>
+  <rect class="box" x="1" y="168" width="160" height="62" rx="8"/>
+  <text class="title" x="16" y="193">harness</text><text x="16" y="214">fresh board, one task</text>
+  <rect class="box" x="250" y="168" width="130" height="62" rx="8"/>
+  <text class="title" x="265" y="193">grader</text><text x="265" y="214">final board vs. task</text>
+  <rect class="box" x="430" y="168" width="130" height="62" rx="8"/>
+  <text class="title" x="445" y="193">model</text><text x="445" y="214">PyMC</text>
+  <rect class="box" x="609" y="168" width="110" height="62" rx="8"/>
+  <text class="title" x="624" y="193">write-up</text><text x="624" y="214">interactive</text>
+  <path class="flow" d="M162 51H247"/>
+  <path class="flow" d="M558 51H473"/>
+  <path class="flow" d="M161 199H247"/>
+  <path class="flow" d="M381 199H427"/>
+  <path class="flow" d="M561 199H606"/>
+  <path class="flow" d="M81 166V140H639V84"/>
+</svg>
+<p>The board is a small web app. You work in the browser: drag cards, rename them, add new ones. The agent works through a command-line tool called <code>board</code>, with commands like <code>board show todo</code> and <code>board move 4 doing</code>. Both go through the same server, which records every change as an event in a log, together with who made it. The board is computed from that log, and every change is pushed to each open page as it happens. So when the agent moves a card, you see it slide into its new column with an orange edge, and you can move it back.</p>
+<p>The code keeps the board logic in one place. The rules for what a change does are pure functions, and the browser runs the same files as the server. The CLI prints through a small interface, so the experiment could swap its output style without touching any command.</p>
+
+<h2>The experiment</h2>
+<p>An agent's tool is usually designed for people. I built three versions of the same CLI: a plain one, an agent-friendly one that explains its rules and reports what each change did, and a forgiving one that also accepts the commands agents tend to guess. Then I gave three Claude models 18 tasks each, from moving a few cards to sorting a column by priorities hidden in the descriptions.</p>
+<p>For every run, a harness starts a fresh board, gives one task to Claude Code running headless, and lets a script compare the final board with the expected one. The agent can only run <code>board</code>. Each run records success, tool calls, failed commands and tokens. A hierarchical Bayesian model then separates the CLI's effect from how hard each task is.</p>
+
+<h2>What I found</h2>
+<p>The agents finished almost every task with every version. The differences were in the detours they took on the way. Accepting the commands agents guess brought their wrong commands down to about a third, for every model. More helpful output saved tool calls, but it made Sonnet about 19% more expensive, because Sonnet barely needs the help and the longer text stays in its context. For the oldest, weakest model the same output saved tokens. The choice of model mattered far more than any design: Haiku 5.5 did a typical task for about an eleventh of Sonnet's cost.</p>
+<p>Before running five new tasks, I committed the model's predictions for them. All 90 held-out runs landed inside the predicted ranges. The write-up says what that test does and does not show, and also covers a flaw in my first round and a mistake in my own help text.</p>
+
+<h2>Write-up</h2>
+<div class="cards">
+  <a class="card" href="writeup/">
+    <p class="kicker">Write-up 01</p>
+    <h3>How CLI design changes an AI agent's work</h3>
+    <p>The experiment, the model and the prediction test, with interactive charts and the data behind them.</p>
+  </a>
+</div>
+
+<h2>Stack</h2>
+<ul class="tags" aria-label="Built with">
+  <li>TypeScript on Node, no build step</li><li>SQLite</li><li>Server-Sent Events</li><li>Claude Code, headless</li><li>PyMC · ArviZ</li><li>D3</li>
+</ul>
+
+<h2>Related work</h2>
+<p>William Casarin's <a href="https://github.com/damus-io/notedeck/tree/master/crates/notedeck_headway">Headway</a> is a kanban board built the same way, with a GUI for people and a CLI for agents, stored as nostr events. Shared Board borrows its event-sourcing idea; the measurement is what it adds.</p>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Joost van Valkenhoef</span>
+    <a href="../">← all work</a>
+  </div>
+</footer>
+
+</body>
+</html>

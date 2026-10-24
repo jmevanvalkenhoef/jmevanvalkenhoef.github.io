@@ -156,6 +156,8 @@ section:last-of-type { padding-bottom: 104px; }
   font: 11px/1 var(--mono); letter-spacing: 0.08em; color: #c3c2b7;
   background: rgba(6, 8, 12, 0.75); border: 1px solid rgba(255, 255, 255, 0.14); padding: 7px 10px;
 }
+.feature + .feature { margin-top: 44px; }
+.shot.light { background: var(--code-bg); }
 .feature .body { display: flex; flex-direction: column; gap: 18px; }
 .feature h3 { font-size: 46px; font-weight: 400; letter-spacing: -0.02em; margin: 0; line-height: 1; }
 .feature h3 a { color: var(--text); text-decoration: none; }
@@ -213,7 +215,7 @@ footer a { color: var(--muted); }
 .prose li { margin: 8px 0; }
 .prose li::marker { color: var(--accent); }
 .prose .stats { margin: 28px 0; }
-.prose .tags { margin-top: 12px; }
+.prose .tags { margin-top: 12px; padding-left: 0; }
 .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; margin: 20px 0; }
 .card { display: block; padding: 16px 0 20px; border-top: 1px solid var(--rule); text-decoration: none; color: var(--text); }
 .card:hover h3 { text-decoration: underline; text-decoration-thickness: 1px; }
