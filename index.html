@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Joost van Valkenhoef</title>
-  <meta name="description" content="Data scientist and software engineer. I build systems that work without a central authority, and measure whether they really do.">
+  <meta name="description" content="Data scientist and software engineer. I build decentralized systems and measure how they behave.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
@@ -30,8 +30,8 @@
   <canvas id="mesh" aria-hidden="true"></canvas>
   <div class="wrap">
     <p class="kicker">Data scientist · Software engineer</p>
-    <h1>I build systems that work without a central authority, <em>and measure whether they really do.</em></h1>
-    <p class="lede">A background in data science and software development, aimed these days at decentralized networks, self-hosted infrastructure and honest statistics about how they behave.</p>
+    <h1>I build decentralized systems and <em>measure how they behave.</em></h1>
+    <p class="lede">My background is in data science and software development. My current work is on mesh networks that run without a central server, and on the statistics of how they fail.</p>
     <div class="cta">
       <a class="btn primary" href="fips-lab/">See FIPS Lab →</a>
       <a class="btn" href="#contact">Get in touch</a>
@@ -86,7 +86,7 @@
           <span class="meta">Oct 2026<br>FIPS Lab · 01</span>
           <div>
             <h3>Thirty seconds of silence</h3>
-            <p>How fast does a mesh route around a cut link? Usually the dead-link timeout plus a second. But in the first five minutes, replies can loop between two nodes until their hop limit runs out. Traced to an anti-poisoning rule in the source.</p>
+            <p>How fast a mesh routes around a cut link. It usually takes the dead-link timeout plus a second, but in the first five minutes after start-up, replies can loop between two nodes until their hop limit runs out. I traced this to an anti-poisoning rule in the FIPS source.</p>
           </div>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
@@ -96,7 +96,7 @@
           <span class="meta">Oct 2026<br>FIPS Lab · 02</span>
           <div>
             <h3>A timer through the wall</h3>
-            <p>Could the measurements alone have found that timer? A censored mixture model in PyMC says yes: 301.4 ± 1.3 s against 300 s in the source. Then it predicted cuts it had not seen, and a fresh run checked them.</p>
+            <p>A censored mixture model in PyMC finds the same timer from the measurements alone: 301.4 ± 1.3 s, against 300 s in the source. I then used the model to predict the outcome of new cuts and checked the predictions in a separate run.</p>
           </div>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
@@ -110,13 +110,18 @@
     <div class="head"><h2>About</h2></div>
     <div class="about">
       <div>
-        <p>I've worked as a data scientist and as a software developer, and never fully picked a side. Code is cheap to write now. Knowing what to measure, and whether the result is actually right, still isn't. That is the part I like best.</p>
-        <p>I'm drawn to sovereign technology: networks that heal without a coordinator, identities nobody can revoke, software you can run yourself. I like to test those promises the way I would test a model: with experiments, uncertainty and a prediction that could fail.</p>
+        <p>I have worked as a data scientist and as a software developer. The work I enjoy most combines the two: building a system and then measuring whether it does what it is supposed to do.</p>
+        <p>I am interested in sovereign technology, such as mesh networks without a coordinator and identities based on keys that no company controls. I test claims about such systems the way I would test a statistical model, with experiments and with predictions that could turn out to be wrong.</p>
       </div>
       <div class="skills">
-        <div><h3>Measure</h3><p>Experiment design, censored and messy data, Bayesian models (PyMC), honest uncertainty.</p></div>
-        <div><h3>Build</h3><p>Python, Docker, Linux networking, test harnesses, data pipelines, web front ends (D3).</p></div>
-        <div><h3>Explain</h3><p>Write-ups that engineers can reproduce and decision makers can act on.</p></div>
+        <h3>Skills</h3>
+        <ul>
+          <li>Experiment design and Bayesian modelling in PyMC, including censored data</li>
+          <li>Python, Docker and Linux networking</li>
+          <li>Test harnesses and data pipelines</li>
+          <li>Interactive data visualization with D3</li>
+          <li>Technical write-ups that others can reproduce</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -127,7 +132,7 @@
     <div class="contact">
       <div>
         <h2>Let's talk</h2>
-        <p>Open to roles in data science, software engineering and distributed systems.</p>
+        <p>I am looking for work in data science or software engineering, preferably on distributed systems.</p>
       </div>
       <div class="cta">
         <a class="btn primary" href="mailto:jmevanvalkenhoef@gmail.com">Email me</a>
@@ -142,7 +147,7 @@
 <footer>
   <div class="wrap">
     <span>© 2026 Joost van Valkenhoef</span>
-    <span>Hand-written HTML, no trackers, no build step.</span>
+    <span>Static HTML without trackers.</span>
   </div>
 </footer>
 

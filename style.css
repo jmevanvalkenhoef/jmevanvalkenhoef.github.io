@@ -187,9 +187,9 @@ section:last-of-type { padding-bottom: 104px; }
 /* About */
 .about { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; }
 .about p { margin: 0 0 16px; }
-.skills { display: grid; gap: 22px; }
-.skills h3 { font: italic 600 21px/1.2 var(--serif); margin: 0 0 4px; }
-.skills p { margin: 0; color: var(--text-2); font-size: 18px; }
+.skills h3 { font: italic 600 21px/1.2 var(--serif); margin: 0 0 8px; }
+.skills ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+.skills li { padding: 9px 0; border-bottom: 1px solid var(--border); color: var(--text-2); font-size: 18px; }
 
 /* Contact */
 .contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; border-top: 2px solid var(--rule); padding-top: 24px; }
