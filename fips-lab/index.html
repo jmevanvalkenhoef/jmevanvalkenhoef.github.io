@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FIPS Lab · Joost van Valkenhoef</title>
+  <meta name="description" content="A chaos lab for the FIPS mesh network: break it on purpose, measure how it heals, and model what you can't see.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../theme.js"></script>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="name" href="../">joost<span>.</span>van valkenhoef</a>
+    <nav aria-label="Sections">
+      <a href="../#work">work</a>
+      <a href="../#writing">writing</a>
+      <a href="../#about">about</a>
+      <a href="../#contact">contact</a>
+    </nav>
+    <button id="theme" type="button" aria-label="Toggle light or dark theme">theme</button>
+  </div>
+</header>
+
+<main class="wrap narrow">
+
+<div class="page-head">
+  <p class="kicker">Case study · October 2026</p>
+  <h1>FIPS Lab: breaking a mesh network on purpose</h1>
+  <p class="lede">FIPS is a young mesh network whose nodes are identified by Nostr keys and route traffic among themselves, with no central server. It promises to heal itself when links fail. I built a lab to check how well it keeps that promise.</p>
+  <div class="cta">
+    <a class="btn primary" href="experiments/writeups/01-reroute/">Read write-up 01</a>
+    <a class="btn" href="experiments/writeups/02-window/">Read write-up 02</a>
+  </div>
+</div>
+
+<figure class="figure">
+  <img src="../img/fips-lab-live.webp" width="1220" height="1000" alt="The FIPS Lab live view: six mesh nodes in a ring with npub labels, the spanning tree drawn in teal, the root in amber, one cut link marked down, and stats for nodes, links, root and traffic.">
+  <figcaption>The live view during a cut. Every node's state streams to the browser once a second: the spanning tree, the root, link health and traffic.</figcaption>
+</figure>
+
+<div class="prose">
+
+<div class="stats">
+  <div class="stat"><b>111</b><span>measured cuts, censored waits included</span></div>
+  <div class="stat"><b>2</b><span>upstream-worthy issues found</span></div>
+  <div class="stat"><b>301.4 ± 1.3 s</b><span>timer inferred from outside; the source says 300</span></div>
+</div>
+
+<h2>The question</h2>
+<p>When a link in a FIPS mesh breaks, how long until traffic flows the other way round, and does it always? That is easy to ask and hard to answer by hand. You need a mesh you can break in exactly the same way a hundred times, measurements that keep the runs where nothing came back, and a way to see what the network thinks is happening while it happens.</p>
+
+<h2>What I built</h2>
+<svg class="arch" viewBox="0 0 720 250" role="img" aria-labelledby="arch-title">
+  <title id="arch-title">Architecture: a topology file drives lab.py, which starts FIPS nodes in Docker with one network per link. A collector reads every node's control socket and streams it to the live view. Scenarios inject faults and write measurements, which analysis and a Bayesian model turn into write-ups.</title>
+  <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 8 4 0 8Z" fill="var(--series)"/></marker></defs>
+  <rect class="box" x="1" y="20" width="150" height="62" rx="8"/>
+  <text class="title" x="16" y="45">topology.toml</text><text x="16" y="66">ring, grid, random</text>
+  <rect class="box hl" x="215" y="1" width="290" height="100" rx="8"/>
+  <text class="title" x="230" y="26">Docker mesh</text>
+  <text x="230" y="48">FIPS nodes, Nostr-key identities</text>
+  <text x="230" y="68">one network per link, tc/netem</text>
+  <text x="230" y="88">cut · heal · kill · partition</text>
+  <rect class="box" x="569" y="20" width="150" height="62" rx="8"/>
+  <text class="title" x="584" y="45">live view</text><text x="584" y="66">D3, SSE, 1 Hz</text>
+  <rect class="box" x="1" y="168" width="150" height="62" rx="8"/>
+  <text class="title" x="16" y="193">scenarios</text><text x="16" y="214">scripted faults</text>
+  <rect class="box" x="215" y="168" width="130" height="62" rx="8"/>
+  <text class="title" x="230" y="193">measure</text><text x="230" y="214">censored waits</text>
+  <rect class="box" x="409" y="168" width="130" height="62" rx="8"/>
+  <text class="title" x="424" y="193">model</text><text x="424" y="214">PyMC</text>
+  <rect class="box" x="603" y="168" width="116" height="62" rx="8"/>
+  <text class="title" x="618" y="193">write-ups</text><text x="618" y="214">interactive</text>
+  <path class="flow" d="M152 51H212"/>
+  <path class="flow" d="M506 51H566"/>
+  <path class="flow" d="M76 166V140H255V104"/>
+  <path class="flow" d="M320 104V165"/>
+  <path class="flow" d="M346 199H406"/>
+  <path class="flow" d="M540 199H600"/>
+</svg>
+<ul>
+  <li><b>A reproducible testbed.</b> A topology file becomes a mesh of FIPS nodes in Docker. Each link is its own network, so a cut, a delay or packet loss hits exactly one link.</li>
+  <li><b>Fault injection, scripted or by hand.</b> Cut, heal, kill, partition and degrade, from the command line, from scenario files, or by clicking a link in the browser.</li>
+  <li><b>A live view.</b> A collector reads every node's control socket once a second and streams it to a D3 page, so you watch the tree re-form after a cut.</li>
+  <li><b>Measurements that keep the failures.</b> A wait that times out is stored as a censored measurement, not dropped. That choice is what made the main finding visible.</li>
+</ul>
+
+<h2>What I found</h2>
+<p>Most of the time the answer is dull, in a good way: traffic reroutes within the dead-link timeout plus about a second. Two things were not dull.</p>
+<ul>
+  <li><b>A five-minute window where traffic can get stuck.</b> In 7 of 10 cuts made 90 s after start-up, replies looped between two nodes until their hop limit ran out, and nothing got through for minutes. On a mesh that had been running a while: 0 of 38. I traced it in the Rust source to an anti-poisoning rule: a node trusts its own verified routing data for 300 s and refuses corrections in the meantime.</li>
+  <li><b>A repaired link that sits idle.</b> After a link is declared dead, reconnect attempts back off exponentially, so a healed link can wait up to 76 s before it is used again.</li>
+</ul>
+
+<h2>Seeing the timer from outside</h2>
+<p>Reading the source gave the answer, but would the measurements alone have found it? A censored mixture model in PyMC, fit to every cut, places the hidden window at 301.4 ± 1.3 s. The second write-up shows what each kind of evidence adds, then uses the model to predict cuts it had not seen. A fresh 25-minute run put 5 of 5 inside the predicted range.</p>
+
+<h2>Write-ups</h2>
+<div class="cards">
+  <a class="card" href="experiments/writeups/01-reroute/">
+    <p class="kicker">Write-up 01</p>
+    <h3>Thirty seconds of silence</h3>
+    <p>How fast the mesh routes around a cut, and the forwarding loop found on the way. Interactive charts and a diagram of the loop.</p>
+  </a>
+  <a class="card" href="experiments/writeups/02-window/">
+    <p class="kicker">Write-up 02</p>
+    <h3>A timer through the wall</h3>
+    <p>Inferring the hidden timer with a Bayesian model, then testing its prediction against new runs.</p>
+  </a>
+</div>
+
+<h2>Stack</h2>
+<ul class="tags" aria-label="Built with">
+  <li>Python (standard library)</li><li>Docker / compose</li><li>tc / netem</li><li>Server-Sent Events</li><li>D3</li><li>PyMC · ArviZ</li><li>uv</li>
+</ul>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Joost van Valkenhoef</span>
+    <a href="../">← all work</a>
+  </div>
+</footer>
+
+</body>
+</html>
