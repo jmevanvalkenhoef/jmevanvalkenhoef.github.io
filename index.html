@@ -179,22 +179,24 @@
     <div class="head"><h2>About</h2></div>
     <div class="about">
       <div>
-        <p>I would rather make things than consume them. That can be software or something physical, and often it means taking something that already exists and improving it.</p>
-        <p>Much of what I build is about removing third parties. The internet relies on a few central parties for identity: DNS maps names to addresses, and certificate authorities vouch for who is on the other end of a connection. When one of them makes a mistake, everyone who depends on it is exposed. FIPS, the mesh network in my first project, works differently. Every node is identified by its own key, so two machines can find and trust each other without a company like Tailscale in between.</p>
-        <p>I prefer local-first software for the same reason. Files on my own laptop, my own database and my own servers keep working whatever happens to a provider. The price is responsibility. If I break something, there is no support desk to call and no one else's backup to fall back on, and I am happy to make that trade.</p>
-        <p>I have worked as a data scientist and as a software developer, and I test these systems the way I would test a statistical model, with experiments and with predictions that could turn out to be wrong.</p>
+        <p>I am a data scientist and software developer, and I like to own a problem from the first question to the working system. I build the software myself, and then I check with data whether it does what it should.</p>
+        <p>Most of that work is now with AI. For Shared Board I measured how the design of a tool changes the work of three Claude models, over 414 graded runs, with a Bayesian model that separates the effect of the tool from the difficulty of the task. This is the work I want to do more of: finding out how well an AI system works and what it costs, before a product depends on it.</p>
+        <p>I prefer probabilities over point estimates. A result with an honest range tells a team how much risk it is taking, and a model that makes predictions can be checked. In FIPS Lab, a model inferred a hidden timer of 301 ± 1 s from outside measurements alone, against 300 s in the source code, and I committed its predictions for new runs before I made them.</p>
+        <p>I would rather make things than only use them, and I like software that keeps working without depending on a provider. That comes with responsibility, since there is no support desk to call, and it has made me careful about what happens when things fail. Before running a payment service for real money, I put its own code through 50 simulated weeks of outages and lost messages.</p>
       </div>
       <div class="skills">
         <h3>Skills</h3>
         <ul>
           <li>Evaluating LLMs and AI agents: test harnesses, graded runs, error analysis, and token and cost measurement</li>
           <li>Designing tools and interfaces that AI agents use, with Claude Code in headless mode</li>
+          <li>Machine learning with scikit-learn and PyTorch</li>
           <li>Bayesian statistics: probabilities over point estimates, so a decision can weigh how sure the data makes us</li>
           <li>Bayesian modelling in PyMC and ArviZ: hierarchical and censored models, with predictions checked on held-out data</li>
           <li>Experiment design: pilots, paired comparisons and predictions committed before the data</li>
-          <li>Simulation with generative models to test a system against conditions it has not met yet</li>
+          <li>Simulation with generative models, and tests that check a system against what really happened</li>
+          <li>SQL and Spark for data pipelines</li>
+          <li>Deploying models and services to production in the cloud, with Docker and Linux</li>
           <li>Python (NumPy, PyMC, FastAPI) and TypeScript on Node</li>
-          <li>SQLite, Docker and Linux; tests that check a system against what really happened</li>
           <li>Interactive data visualization with D3 and write-ups that others can reproduce</li>
         </ul>
       </div>
