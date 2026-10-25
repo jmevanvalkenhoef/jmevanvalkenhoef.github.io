@@ -52,13 +52,13 @@
 
     <article class="feature">
       <a class="shot light" href="g2c/" aria-label="G2C case study">
-        <img src="img/g2c-card.webp" width="630" height="440" alt="A chart from the G2C write-up: for each simulated week, the most money fronted against the week's largest sale. The points lie on the diagonal." loading="lazy">
+        <img src="img/g2c-card.webp" width="630" height="440" alt="A chart from the G2C write-up: for each simulated week, the most money paid out before collecting, against the week's largest sale. The points lie on the diagonal." loading="lazy">
         <span class="tag">50 SIMULATED WEEKS · MONEY FRONTED</span>
       </a>
       <div class="body">
         <p class="kicker">Payments · Simulation</p>
         <h3><a href="g2c/">G2C</a></h3>
-        <p>An escrow that settles trades of in-game items over the Lightning Network: the item and the money move together, or neither moves. I ran its real state machine through 50 simulated weeks of failing nodes, games and payouts to find out what running it takes: the money it fronts, the fee it needs and when to alert an operator.</p>
+        <p>An escrow for digital goods that charges the buyer and pays the seller as one step: the goods and the money move together, or neither moves. Payments run over the Lightning Network, which can hold a payment until the trade is done; in-game items are the first use. I ran its real state machine through 50 simulated weeks of failures to find out what running it takes: the money it pays out before it collects, the fee it needs and when to alert an operator.</p>
         <div class="stats">
           <div class="stat"><b>0</b><span>broken money guarantees in 340,404 simulated sales</span></div>
           <div class="stat"><b>10 s</b><span>longest G2C pays before it collects, for 99 of 100 payouts</span></div>
