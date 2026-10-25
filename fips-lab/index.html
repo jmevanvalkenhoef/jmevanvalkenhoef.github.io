@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FIPS Lab · Joost van Valkenhoef</title>
-  <meta name="description" content="A chaos lab for the FIPS mesh network that cuts links on purpose and measures how the network recovers.">
+  <meta name="description" content="A chaos lab for FIPS, a network that needs no DNS or certificate authority, that cuts links on purpose and measures how it recovers.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="../style.css">
   <script src="../theme.js"></script>
@@ -29,7 +29,7 @@
 <div class="page-head">
   <p class="kicker">Case study · October 2026</p>
   <h1>FIPS Lab: breaking a mesh network on purpose</h1>
-  <p class="lede">FIPS is a young mesh network whose nodes are identified by Nostr keys and route traffic among themselves, with no central server. It is designed to route around failed links by itself. I built a lab to measure how well it does that.</p>
+  <p class="lede">Most connections on the internet depend on third parties for identity: DNS for names and certificate authorities for trust. FIPS is a young network that does without them. Every node is identified by its own key, and the nodes route traffic among themselves without a central server. Without anyone in the middle, the network has to route around failed links by itself, and I built a lab to measure how well it does that.</p>
   <div class="cta">
     <a class="btn primary" href="experiments/writeups/01-reroute/">Read write-up 01</a>
     <a class="btn" href="experiments/writeups/02-window/">Read write-up 02</a>

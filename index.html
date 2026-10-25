@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Joost van Valkenhoef</title>
-  <meta name="description" content="Data scientist and software engineer. I build software and measure how it behaves: mesh networks, tools for AI agents, Lightning payments, and the statistics behind them.">
+  <meta name="description" content="Data scientist and software engineer. I build software that works without third parties in between and tools that people and AI agents share, and I measure how they behave.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
@@ -31,7 +31,7 @@
   <div class="wrap">
     <p class="kicker">Data scientist · Software engineer</p>
     <h1>I build software and <em>measure how it behaves.</em></h1>
-    <p class="lede">My background is in data science and software development. At the moment I work on mesh networks that run without a central server, on tools that AI agents use and on payments over Lightning, and I test them with experiments and Bayesian statistics.</p>
+    <p class="lede">My background is in data science and software development. At the moment I build software that works without third parties in between and tools that people and AI agents use together, and I test both with experiments and Bayesian statistics.</p>
     <div class="cta">
       <a class="btn primary" href="#work">See my work →</a>
       <a class="btn" href="#contact">Get in touch</a>
@@ -49,31 +49,6 @@
 <section id="work">
   <div class="wrap">
     <div class="head"><h2>Work</h2><span class="count">3 projects</span></div>
-
-    <article class="feature">
-      <a class="shot light" href="g2c/" aria-label="G2C case study">
-        <img src="img/g2c-card.webp" width="630" height="440" alt="A chart from the G2C write-up: for each simulated week, the most money paid out before collecting, against the week's largest sale. The points lie on the diagonal." loading="lazy">
-        <span class="tag">50 SIMULATED WEEKS · MONEY FRONTED</span>
-      </a>
-      <div class="body">
-        <p class="kicker">Payments · Simulation</p>
-        <h3><a href="g2c/">G2C</a></h3>
-        <p>An escrow for digital goods that charges the buyer and pays the seller as one step: the goods and the money move together, or neither moves. Payments run over the Lightning Network, which can hold a payment until the trade is done; in-game items are the first use. I ran its real state machine through 50 simulated weeks of failures to find out what running it takes: the money it pays out before it collects, the fee it needs and when to alert an operator.</p>
-        <div class="stats">
-          <div class="stat"><b>0</b><span>broken money guarantees in 340,404 simulated sales</span></div>
-          <div class="stat"><b>10 s</b><span>longest G2C pays before it collects, for 99 of 100 payouts</span></div>
-          <div class="stat"><b>0 / 1400</b><span>losing days over four fee structures</span></div>
-        </div>
-        <ul class="tags" aria-label="Built with">
-          <li>Python</li><li>FastAPI</li><li>SQLite</li><li>Lightning</li><li>NumPy</li><li>D3</li>
-        </ul>
-        <div class="links">
-          <a href="g2c/">Case study →</a>
-          <a href="g2c/writeup/">Write-up</a>
-          <a href="g2c/white-paper.pdf">White paper</a>
-        </div>
-      </div>
-    </article>
 
     <article class="feature">
       <a class="shot light" href="shared-board/" aria-label="Shared Board case study">
@@ -105,9 +80,9 @@
         <span class="tag">LIVE VIEW · RING6 · ONE LINK CUT</span>
       </a>
       <div class="body">
-        <p class="kicker">Distributed systems · Bayesian inference</p>
+        <p class="kicker">Removing third parties · Bayesian inference</p>
         <h3><a href="fips-lab/">FIPS Lab</a></h3>
-        <p>A chaos lab for <a href="https://github.com/jmcorgan/fips">FIPS</a>, a mesh network whose nodes are identified by Nostr keys. It runs a mesh in Docker, breaks it on purpose, and measures how it heals. 111 measured cuts turned up a five-minute window in which traffic can get stuck in a routing loop, which a Bayesian model then pinned down from the outside.</p>
+        <p>A chaos lab for <a href="https://github.com/jmcorgan/fips">FIPS</a>, a network in which every machine is identified by its own key, so two machines can find and trust each other without DNS or a certificate authority in between. The lab runs it in Docker, breaks it on purpose, and measures how it heals. 111 measured cuts turned up a five-minute window in which traffic can get stuck in a routing loop, which a Bayesian model then pinned down from the outside.</p>
         <div class="stats">
           <div class="stat"><b>7 / 10</b><span>cuts stuck when made 90 s after start-up</span></div>
           <div class="stat"><b>301 ± 1 s</b><span>hidden timer, inferred from measurements alone</span></div>
@@ -123,6 +98,31 @@
         </div>
       </div>
     </article>
+
+    <article class="feature">
+      <a class="shot light" href="g2c/" aria-label="G2C case study">
+        <img src="img/g2c-card.webp" width="630" height="440" alt="A chart from the G2C write-up: for each simulated week, the most money paid out before collecting, against the week's largest sale. The points lie on the diagonal." loading="lazy">
+        <span class="tag">50 SIMULATED WEEKS · MONEY FRONTED</span>
+      </a>
+      <div class="body">
+        <p class="kicker">Payments · Simulation</p>
+        <h3><a href="g2c/">G2C</a></h3>
+        <p>An escrow for digital goods that charges the buyer and pays the seller as one step: the goods and the money move together, or neither moves. Payments run over the Lightning Network, which can hold a payment until the trade is done; in-game items are the first use. I ran its real state machine through 50 simulated weeks of failures to find out what running it takes: the money it pays out before it collects, the fee it needs and when to alert an operator.</p>
+        <div class="stats">
+          <div class="stat"><b>0</b><span>broken money guarantees in 340,404 simulated sales</span></div>
+          <div class="stat"><b>10 s</b><span>longest G2C pays before it collects, for 99 of 100 payouts</span></div>
+          <div class="stat"><b>0 / 1400</b><span>losing days over four fee structures</span></div>
+        </div>
+        <ul class="tags" aria-label="Built with">
+          <li>Python</li><li>FastAPI</li><li>SQLite</li><li>Lightning</li><li>NumPy</li><li>D3</li>
+        </ul>
+        <div class="links">
+          <a href="g2c/">Case study →</a>
+          <a href="g2c/writeup/">Write-up</a>
+          <a href="g2c/white-paper.pdf">White paper</a>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -130,16 +130,6 @@
   <div class="wrap">
     <div class="head"><h2>Writing</h2><span class="count">4 posts</span></div>
     <ul class="posts">
-      <li>
-        <a href="g2c/writeup/">
-          <span class="meta">Oct 2026<br>G2C · 01</span>
-          <div>
-            <h3>What it takes to run a Lightning escrow</h3>
-            <p>The escrow's own state machine in 50 simulated weeks under four fee structures. G2C fronts each payout for seconds, so the capital it needs is set by its largest sale; refunds come mostly from the game, and the fee changes profit far more than it changes refunds.</p>
-          </div>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </li>
       <li>
         <a href="shared-board/writeup/">
           <span class="meta">Oct 2026<br>Shared Board · 01</span>
@@ -170,6 +160,16 @@
           <span class="arrow" aria-hidden="true">→</span>
         </a>
       </li>
+      <li>
+        <a href="g2c/writeup/">
+          <span class="meta">Oct 2026<br>G2C · 01</span>
+          <div>
+            <h3>What it takes to run a Lightning escrow</h3>
+            <p>The escrow's own state machine in 50 simulated weeks under four fee structures. G2C fronts each payout for seconds, so the capital it needs is set by its largest sale; refunds come mostly from the game, and the fee changes profit far more than it changes refunds.</p>
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
     </ul>
   </div>
 </section>
@@ -188,7 +188,7 @@
         <h3>Skills</h3>
         <ul>
           <li>Experiment design and Bayesian modelling in PyMC, including censored data</li>
-          <li>Python, Docker and Linux networking</li>
+          <li>Python, TypeScript and Docker</li>
           <li>Test harnesses, deterministic simulation and data pipelines</li>
           <li>Interactive data visualization with D3</li>
           <li>Technical write-ups that others can reproduce</li>
@@ -203,7 +203,7 @@
     <div class="contact">
       <div>
         <h2>Let's talk</h2>
-        <p>I am looking for work in data science or software engineering, preferably on distributed systems.</p>
+        <p>I am looking for work in data science or software engineering, preferably on software that works without third parties in between.</p>
       </div>
       <div class="cta">
         <a class="btn primary" href="mailto:jmevanvalkenhoef@gmail.com">Email me</a>
