@@ -229,6 +229,19 @@ footer a { color: var(--muted); }
 .arch .flow { stroke: var(--series); stroke-width: 1.5; fill: none; marker-end: url(#arr); }
 .arch .title { fill: var(--text); font-weight: 600; }
 
+/* G2C sale states */
+.states { display: block; width: 100%; height: auto; margin: 24px 0 8px; }
+.states rect { fill: var(--page); stroke: var(--axis); }
+.states .done rect { stroke: var(--series); stroke-width: 1.5; }
+.states .back rect { stroke: var(--muted); stroke-dasharray: 3 3; }
+.states .person rect { stroke: var(--stuck); stroke-width: 1.5; }
+.states text { font: 11.5px var(--sans); fill: var(--text); text-anchor: middle; }
+.states .note { fill: var(--muted); font-size: 11px; text-anchor: start; }
+.states .arrow { fill: none; stroke: var(--text-2); stroke-width: 1.3; marker-end: url(#arr); }
+.states .arrow.back { stroke: var(--muted); stroke-dasharray: 3 3; }
+.states .arrow.person { stroke: var(--stuck); }
+.states marker path { fill: var(--text-2); }
+
 /* ── Small screens ───────────────────────────────────────────────────── */
 
 @media (max-width: 860px) {

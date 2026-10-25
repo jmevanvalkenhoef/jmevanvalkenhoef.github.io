@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>G2C · Joost van Valkenhoef</title>
+  <meta name="description" content="An escrow that settles in-game item trades over Lightning, and a simulation of what it takes to run it: money fronted, fees, refunds and alerts.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../theme.js"></script>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="name" href="../">Joost van Valkenhoef</a>
+    <nav aria-label="Sections">
+      <a href="../#work">work</a>
+      <a href="../#writing">writing</a>
+      <a href="../#about">about</a>
+      <a href="../#contact">contact</a>
+    </nav>
+    <button id="theme" type="button" aria-label="Toggle light or dark theme">theme</button>
+  </div>
+</header>
+
+<main class="wrap narrow">
+
+<div class="page-head">
+  <p class="kicker">Case study · October 2026</p>
+  <h1>G2C: a Lightning escrow for in-game items</h1>
+  <p class="lede">Players trade game items for real money, mostly on grey-market sites where one side has to trust the other first. G2C settles each trade over the Lightning Network with one guarantee: the item and the money move together, or neither moves. I built the escrow and then simulated what it would take to run it every day.</p>
+  <div class="cta">
+    <a class="btn primary" href="writeup/">Read the write-up</a>
+    <a class="btn" href="white-paper.pdf">White paper (PDF)</a>
+  </div>
+</div>
+
+<div class="prose">
+
+<div class="stats">
+  <div class="stat"><b>340,404</b><span>simulated sales, with no broken money guarantee</span></div>
+  <div class="stat"><b>10 s</b><span>longest G2C pays before it collects, for 99 of 100 payouts</span></div>
+  <div class="stat"><b>0 / 1400</b><span>losing days over four fee structures</span></div>
+</div>
+
+<h2>How it works</h2>
+<p>A trade runs through its steps in a fixed order, from the easiest to undo to the hardest. When the buyer pays, the payment is locked at G2C's Lightning node as a hold invoice: G2C can claim it or give it back, and only G2C holds the secret that claims it. Then the game freezes the item at the seller. G2C pays the seller, claims the buyer's payment, and the game hands the item to the buyer. If anything fails before the seller is paid, the item is unfrozen and the lock released, so the buyer gets the money back without anyone acting.</p>
+<svg class="states" viewBox="-10 0 740 190" role="img" aria-labelledby="states-title">
+  <title id="states-title">The sale's states. The main path runs from awaiting payment, through reserving the item, paying the seller, settling the buyer and committing the item, to completed. Before the seller is paid, any failure leads to releasing the item, refunding the buyer and cancelled. A game that refuses to hand over a paid item leads to a state that needs a person.</title>
+  <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 8 4 0 8Z"/></marker></defs>
+  <g class="step"><rect x="0" y="20" width="96" height="40" rx="6"/><text x="48" y="44">awaiting payment</text></g>
+  <g class="step"><rect x="124" y="20" width="96" height="40" rx="6"/><text x="172" y="44">reserving item</text></g>
+  <g class="step"><rect x="248" y="20" width="96" height="40" rx="6"/><text x="296" y="44">paying seller</text></g>
+  <g class="step"><rect x="372" y="20" width="96" height="40" rx="6"/><text x="420" y="44">settling buyer</text></g>
+  <g class="step"><rect x="496" y="20" width="96" height="40" rx="6"/><text x="544" y="44">committing item</text></g>
+  <g class="step done"><rect x="620" y="20" width="100" height="40" rx="6"/><text x="670" y="44">completed</text></g>
+  <g class="step back"><rect x="124" y="130" width="96" height="40" rx="6"/><text x="172" y="154">releasing item</text></g>
+  <g class="step back"><rect x="248" y="130" width="96" height="40" rx="6"/><text x="296" y="154">refunding buyer</text></g>
+  <g class="step back"><rect x="372" y="130" width="96" height="40" rx="6"/><text x="420" y="154">cancelled</text></g>
+  <g class="step person"><rect x="560" y="130" width="160" height="40" rx="6"/><text x="640" y="154">needs a person</text></g>
+  <path class="arrow" d="M96 40H121"/><path class="arrow" d="M220 40H245"/><path class="arrow" d="M344 40H369"/>
+  <path class="arrow" d="M468 40H493"/><path class="arrow" d="M592 40H617"/>
+  <path class="arrow back" d="M172 60V127"/><path class="arrow back" d="M296 60V95H190V127"/>
+  <path class="arrow back" d="M220 150H245"/><path class="arrow back" d="M344 150H369"/>
+  <path class="arrow person" d="M544 60V95H640V127"/>
+  <text class="note" x="300" y="92">before the seller is paid</text>
+</svg>
+<p>The escrow is a small Python service. It advances each sale by one step at a time and saves every step before taking the next, so after a crash it carries on from the state it saved. Every step can be repeated safely. Each change is written to an append-only, hash-chained event log, and every sat to a double-entry ledger. A few rules close the ways to pay the seller and refund the buyer both: it never refunds while the seller's payment might still land, it only pays while the buyer's locked payment has enough time left, and after an error on claiming it asks the node what happened instead of guessing.</p>
+<p>The escrow runs on Core Lightning in a local test network, with a demo game and drills that crash it and cut its connections, and on LND for mainnet. An earlier version of the contract has completed one real sale on mainnet.</p>
+
+<h2>The simulation</h2>
+<p>Before running it for real money, I wanted numbers on what running it takes: how much G2C pays out before it collects, which fee it needs, how often a buyer gets a refund and when an operator should be woken. There is no traffic yet to measure, so I ran the escrow's own state machine, unchanged, against a simulated Lightning node, game and buyers, each week on its own clock.</p>
+<p>Every rate in the simulated world is an assumption with a range, and each week draws its own values from those ranges, so a conclusion only counts when it holds across them. Faults come in bad periods, outages have a long tail, and the hardest faults are lost answers, where the node pays the seller and the escrow never hears back. To check that the checks would catch a broken escrow, I broke it twice on purpose; they found 43 and 304 broken sales. The escrow as it is had none. Fifty weeks then ran under four fee structures, the same weeks under each.</p>
+
+<h2>What I found</h2>
+<p>Each seller payout is fronted for a few seconds, so the most G2C pays out before it collects is about the week's largest sale. The node needs spare balance of that size, and a maximum sale amount would cap it. Profit follows the fee's percentage, refunds hardly depend on the fee, and below about 0.5% small sales start to find no route within their fee. Most refunds come from the game refusing to reserve an item; failed payouts matter much less. The write-up turns the spreads into alert thresholds for a dashboard, and says which numbers to measure first once G2C is live.</p>
+
+<h2>Write-up and white paper</h2>
+<div class="cards">
+  <a class="card" href="writeup/">
+    <p class="kicker">Write-up 01</p>
+    <h3>What it takes to run a Lightning escrow</h3>
+    <p>The simulation, its assumptions and its results, with interactive charts.</p>
+  </a>
+  <a class="card" href="white-paper.pdf">
+    <p class="kicker">White paper</p>
+    <h3>Safe trading of in-game items for bitcoin</h3>
+    <p>The service, the trade flow and the proposed setup with a game studio. Four pages, PDF.</p>
+  </a>
+</div>
+
+<h2>Stack</h2>
+<ul class="tags" aria-label="Built with">
+  <li>Python · FastAPI</li><li>SQLite</li><li>Core Lightning · LND</li><li>Hold invoices</li><li>Docker</li><li>NumPy</li><li>D3</li>
+</ul>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Joost van Valkenhoef</span>
+    <a href="../">← all work</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Joost van Valkenhoef</title>
-  <meta name="description" content="Data scientist and software engineer. I build software and measure how it behaves: mesh networks, tools for AI agents, and the statistics behind them.">
+  <meta name="description" content="Data scientist and software engineer. I build software and measure how it behaves: mesh networks, tools for AI agents, Lightning payments, and the statistics behind them.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke='%231aa995' stroke-width='2.5'%3E%3Cpath d='M8 24 16 8 24 24Z'/%3E%3Ccircle cx='16' cy='8' r='3.5' fill='%2306080c' stroke='%23fbbf24'/%3E%3Ccircle cx='8' cy='24' r='3.5' fill='%2306080c'/%3E%3Ccircle cx='24' cy='24' r='3.5' fill='%2306080c'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script src="theme.js"></script>
@@ -31,7 +31,7 @@
   <div class="wrap">
     <p class="kicker">Data scientist · Software engineer</p>
     <h1>I build software and <em>measure how it behaves.</em></h1>
-    <p class="lede">My background is in data science and software development. At the moment I work on mesh networks that run without a central server and on tools that AI agents use, and I test both with experiments and Bayesian statistics.</p>
+    <p class="lede">My background is in data science and software development. At the moment I work on mesh networks that run without a central server, on tools that AI agents use and on payments over Lightning, and I test them with experiments and Bayesian statistics.</p>
     <div class="cta">
       <a class="btn primary" href="#work">See my work →</a>
       <a class="btn" href="#contact">Get in touch</a>
@@ -48,7 +48,32 @@
 
 <section id="work">
   <div class="wrap">
-    <div class="head"><h2>Work</h2><span class="count">2 projects</span></div>
+    <div class="head"><h2>Work</h2><span class="count">3 projects</span></div>
+
+    <article class="feature">
+      <a class="shot light" href="g2c/" aria-label="G2C case study">
+        <img src="img/g2c-card.webp" width="630" height="440" alt="A chart from the G2C write-up: for each simulated week, the most money fronted against the week's largest sale. The points lie on the diagonal." loading="lazy">
+        <span class="tag">50 SIMULATED WEEKS · MONEY FRONTED</span>
+      </a>
+      <div class="body">
+        <p class="kicker">Payments · Simulation</p>
+        <h3><a href="g2c/">G2C</a></h3>
+        <p>An escrow that settles trades of in-game items over the Lightning Network: the item and the money move together, or neither moves. I ran its real state machine through 50 simulated weeks of failing nodes, games and payouts to find out what running it takes: the money it fronts, the fee it needs and when to alert an operator.</p>
+        <div class="stats">
+          <div class="stat"><b>0</b><span>broken money guarantees in 340,404 simulated sales</span></div>
+          <div class="stat"><b>10 s</b><span>longest G2C pays before it collects, for 99 of 100 payouts</span></div>
+          <div class="stat"><b>0 / 1400</b><span>losing days over four fee structures</span></div>
+        </div>
+        <ul class="tags" aria-label="Built with">
+          <li>Python</li><li>FastAPI</li><li>SQLite</li><li>Lightning</li><li>NumPy</li><li>D3</li>
+        </ul>
+        <div class="links">
+          <a href="g2c/">Case study →</a>
+          <a href="g2c/writeup/">Write-up</a>
+          <a href="g2c/white-paper.pdf">White paper</a>
+        </div>
+      </div>
+    </article>
 
     <article class="feature">
       <a class="shot light" href="shared-board/" aria-label="Shared Board case study">
@@ -103,8 +128,18 @@
 
 <section id="writing">
   <div class="wrap">
-    <div class="head"><h2>Writing</h2><span class="count">3 posts</span></div>
+    <div class="head"><h2>Writing</h2><span class="count">4 posts</span></div>
     <ul class="posts">
+      <li>
+        <a href="g2c/writeup/">
+          <span class="meta">Oct 2026<br>G2C · 01</span>
+          <div>
+            <h3>What it takes to run a Lightning escrow</h3>
+            <p>The escrow's own state machine in 50 simulated weeks under four fee structures. G2C fronts each payout for seconds, so the capital it needs is set by its largest sale; refunds come mostly from the game, and the fee changes profit far more than it changes refunds.</p>
+          </div>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
       <li>
         <a href="shared-board/writeup/">
           <span class="meta">Oct 2026<br>Shared Board · 01</span>
@@ -154,7 +189,7 @@
         <ul>
           <li>Experiment design and Bayesian modelling in PyMC, including censored data</li>
           <li>Python, Docker and Linux networking</li>
-          <li>Test harnesses and data pipelines</li>
+          <li>Test harnesses, deterministic simulation and data pipelines</li>
           <li>Interactive data visualization with D3</li>
           <li>Technical write-ups that others can reproduce</li>
         </ul>
