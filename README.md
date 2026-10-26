@@ -17,7 +17,7 @@ style.css         same colour tokens as the write-ups
 img/              screenshots
 ```
 
-Preview: `python3 -m http.server` here and open http://localhost:8000.
+Live at https://jmevanvalkenhoef.github.io (GitHub Pages, from `main`). Preview: `python3 -m http.server` here and open http://localhost:8000.
 
 After changing a write-up in any project: `./sync.sh` and commit.
 
